@@ -1,6 +1,6 @@
 # Unified Recursive Defense Measures
 
-Antigravity Starter Kit — a research-driven, production-oriented security protocol and starter scaffold for Next.js applications (Antigravity 5.1.1). This repository packages the core defensive primitives, checks, and guidance used to harden AI-assisted codebases against hallucinations, supply-chain risks, and other AI-specific vulnerabilities.
+**Unified Recursive Defense Measures** (v5.1.1) is a research-driven, production-oriented security protocol and starter scaffold for Next.js applications. This repository packages the core defensive primitives, checks, and guidance used to harden AI-assisted codebases against hallucinations, supply-chain risks, and other AI-specific vulnerabilities.
 
 ## Quick overview
 - Purpose: Provide an opinionated, layered security scaffold for building web applications with AI-assisted development while minimizing synthetic/hallucination risks.
