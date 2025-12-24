@@ -63,10 +63,12 @@ See docs/unified-recursive-defense-measures-v511-implementation-companion.md for
 .
 ├── .github/workflows/   # CI / validation pipeline
 ├── docs/                # Protocol docs, matrices, and research references
-├── scripts/             # Security & validation automation
-├── src/                 # Implementation (actions, libs, domain, data)
+├── examples/
+│   ├── scripts/         # Security & validation automation
+│   ├── src/             # Implementation (actions, libs, domain, data)
+│   └── tests/           # [Test files](examples/tests/) (Unit, Integration, Adversarial)
 ├── package.json         # Scripts & dependency manifest
-└── vitest.config.ts     # Test configuration
+└── examples/vitest.config.ts # Test configuration
 
 ## Included scripts (examples)
 - npm run format — Prettier
