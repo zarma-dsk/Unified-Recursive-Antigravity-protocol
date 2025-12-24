@@ -10,6 +10,8 @@
  * - KV_REST_API_TOKEN
  */
 
+import { LRUCache } from './lru-cache';
+
 interface RateLimitConfig {
   interval: number; // in milliseconds
   uniqueTokenPerInterval: number; // max requests per interval
@@ -79,7 +81,7 @@ class StubRatelimit {
 const LRU_CACHE_SIZE = 500;
 
 class RateLimiter {
-  private tokens: Map<string, number[]>;
+  private tokens: LRUCache<string, number[]>;
   private config: RateLimitConfig;
   private redisLimiter: StubRatelimit | null = null;
 
@@ -100,6 +102,7 @@ class RateLimiter {
         prefix: 'ratelimit',
       });
     }
+    this.tokens = new LRUCache(LRU_CACHE_SIZE);
   }
 
   /**
@@ -122,6 +125,7 @@ class RateLimiter {
     const now = Date.now();
     const windowStart = now - this.config.interval;
 
+    // get() updates recency
     let timestamps = this.tokens.get(token);
     
     if (!timestamps) {
@@ -159,7 +163,18 @@ class RateLimiter {
         }
     }
 
+    // set() updates recency and handles eviction if full
+    this.tokens.set(token, timestamps);
+
     return true;
+  }
+
+  /**
+   * Reset the rate limiter state.
+   * Useful for testing.
+   */
+  reset(): void {
+    this.tokens.clear();
   }
 }
 
