@@ -397,6 +397,7 @@ describe('RateLimiter', () => {
       // Initialize arrays
       tokens.forEach(token => results.set(token, []));
 
+      // Execute checks sequentially for determinism in this test structure
       // Execute checks sequentially for determinism in this test structure,
       // though parallel would be better if we weren't just checking basic state
       for (const token of tokens) {

@@ -28,6 +28,7 @@ describe('Security Workflow Integration', () => {
       const isAllowed = limiter.check(5, userId);
         await limiter.check(5, userId);
       }
+
       
       const isAllowed = await limiter.check(5, userId);
       expect(isAllowed).toBe(false);
@@ -257,6 +258,14 @@ describe('Security Workflow Integration', () => {
       const iterations = 1000;
       const startTime = Date.now();
       
+      const promises = [];
+      for (let i = 0; i < iterations; i++) {
+        promises.push(limiter.check(100, `user-${i}`));
+      }
+    it('should handle high volume of rate limit checks', async () => {
+      const iterations = 1000;
+      const startTime = Date.now();
+
       const promises = [];
       for (let i = 0; i < iterations; i++) {
         promises.push(limiter.check(100, `user-${i}`));
