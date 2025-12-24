@@ -5,6 +5,17 @@ import { JSDOM } from 'jsdom';
 const window = new JSDOM('').window;
 const purify = DOMPurify(window as any);
 
+/**
+ * Sanitizes HTML content to prevent XSS attacks.
+ *
+ * Uses DOMPurify to strip dangerous tags and attributes.
+ * Additionally enforces:
+ * - Removal of null bytes before processing (to prevent parser evasions).
+ * - Explicit disallowance of `data-` attributes.
+ *
+ * @param dirty - The potentially unsafe HTML string.
+ * @returns The sanitized HTML string.
+ */
 export function sanitizeHtml(dirty: string): string {
   if (!dirty) return '';
   
@@ -20,6 +31,18 @@ export function sanitizeHtml(dirty: string): string {
   });
 }
 
+/**
+ * Sanitizes plain text input for general use.
+ *
+ * Performs the following operations:
+ * 1. Unicode Normalization (NFC): Prevents visual spoofing by ensuring consistent byte representation.
+ * 2. Control Character Removal: Strips non-printable ASCII characters (0-31) which can be used for log injection or other attacks.
+ *    - Preserves standard whitespace: Newline (\n), Carriage Return (\r), and Tab (\t).
+ * 3. Trimming: Removes leading and trailing whitespace.
+ *
+ * @param input - The string to sanitize.
+ * @returns The sanitized plain text string.
+ */
 export function sanitizeInput(input: string): string {
     if (typeof input !== 'string') return input;
 
